@@ -1,0 +1,15 @@
+{
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chatbotaws-master-f4950-authRole",
+      "UnauthRoleArn": "arn:aws:iam::988839728996:role/amplify-chatbotaws-master-f4950-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::988839728996:role/amplify-chatbotaws-master-f4950-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-chatbotaws-master-f4950-deployment",
+      "UnauthRoleName": "amplify-chatbotaws-master-f4950-unauthRole",
+      "StackName": "amplify-chatbotaws-master-f4950",
+      "StackId": "arn:aws:cloudformation:ap-south-1:988839728996:stack/amplify-chatbotaws-master-f4950/69edb950-3bb2-11f0-ae68-02fff9d9abfb",
+      "AmplifyAppId": "d2ik438846ogud"
+    }
+  }
+}
