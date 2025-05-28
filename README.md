@@ -87,3 +87,9 @@ amplify init
 
 Pro tip:
 Try "amplify add api" to create a backend API and then "amplify push" to deploy everything
+
+git commands:
+
+git add .
+git commit -m "mesage"
+git push
