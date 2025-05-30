@@ -1,1 +1,43 @@
-{}
+{
+  "api": {
+    "chatAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "chatLAMBDA"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "chatLAMBDA": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_chatLAMBDA_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatLAMBDA"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatLAMBDA_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatLAMBDA"
+        }
+      ]
+    }
+  }
+}

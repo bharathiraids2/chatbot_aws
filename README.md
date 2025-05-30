@@ -78,6 +78,8 @@ amplify commands:
 
 amplify init
 
+amplify push      #for backend code push to awsa
+
 "amplify status" will show you what you've added already and if it's locally configured or deployed
 "amplify add <category>" will allow you to add features like user login or a backend API
 "amplify push" will build all your local backend resources and provision it in the cloud
@@ -93,3 +95,4 @@ git commands:
 git add .
 git commit -m "mesage"
 git push
+

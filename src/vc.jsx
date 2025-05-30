@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { get } from 'aws-amplify/api';
 
 const VC = () => {
   const [messages, setMessages] = useState([]);
@@ -6,6 +7,30 @@ const VC = () => {
   const recognitionRef = useRef(null);
   const [isListening, setIsListening] = useState(false);
   const chatBoxRef = useRef(null);
+
+  async function getTodo(text) {
+    console.log("text",text)
+    try {
+      const restOperation = get({
+        apiName: 'chatAPI',
+        path: '/items',
+        options: {
+          queryParams: {
+            var: text
+          }
+        }
+      });
+      const { body } = await restOperation.response;
+      console.log("body",body)
+      // const json = await body.json();
+      // console.log('GET call succeeded: ', json);
+      const str = await body.text();
+      return str;
+
+    } catch (e) {
+      console.log('GET call failed: ', JSON.parse(e.response.body));
+    }
+  }
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -20,28 +45,19 @@ const VC = () => {
     recognition.maxAlternatives = 1;
 
     recognition.onstart = () => setIsListening(true);
-    recognition.onresult = (event) => {
+    recognition.onresult = async (event) => {
+
       const transcript = Array.from(event.results).map((r) => r[0].transcript).join("");
+
       setTranscriptText(transcript);
 
       if (event.results[0].isFinal) {
+        // console.log(transcript)
         setMessages((prev) => [{ type: "user", text: transcript }, ...prev]);
-        setTranscriptText(""); 
-
-        // API call to AWS Lambda for Bedrock
-        fetch("https://<your-api-gateway-endpoint>", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: transcript }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setMessages((prev) => [
-              { type: "bot", text: data.message || "No response" },
-              ...prev,
-            ]);
-          })
-          .catch((err) => console.error("Lambda error:", err));
+        let getAIBOTResponse = await getTodo(transcript);
+        console.log("getAIBOTResponse",  getAIBOTResponse);
+        setMessages((prev) => [{ type: "bot", text: getAIBOTResponse }, ...prev]);
+        setTranscriptText("");
       }
     };
 

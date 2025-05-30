@@ -10,6 +10,17 @@
       "StackName": "amplify-chatbotaws-master-f4950",
       "StackId": "arn:aws:cloudformation:ap-south-1:988839728996:stack/amplify-chatbotaws-master-f4950/69edb950-3bb2-11f0-ae68-02fff9d9abfb",
       "AmplifyAppId": "d2ik438846ogud"
+    },
+    "categories": {
+      "function": {
+        "chatLAMBDA": {
+          "deploymentBucketName": "amplify-chatbotaws-master-f4950-deployment",
+          "s3Key": "amplify-builds/chatLAMBDA-2f387847667631416b33-build.zip"
+        }
+      },
+      "api": {
+        "chatAPI": {}
+      }
     }
   }
 }
