@@ -121,8 +121,7 @@ const VC = () => {
     },
     hideScrollbar: `.chatBox::-webkit-scrollbar { display: none; }`,
     pulseKeyframes: `@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }`,
-  };
-
+  }; 
   return (
     <>
       <style>{styles.pulseKeyframes + styles.hideScrollbar}</style>
@@ -165,4 +164,6 @@ const VC = () => {
   );
 };
 
-export default VC;
+export default VC
+
+
