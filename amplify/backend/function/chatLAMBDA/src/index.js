@@ -9,22 +9,30 @@ exports.handler = async (event) => {
 
     console.log(event.queryStringParameters.var)
     let data = "";
-    if(event.queryStringParameters.var.includes("Hello")){
+    if (event.queryStringParameters.var.includes("Hello")) {
         data = "Hi Bharathi !!!"
     }
-    else{
+    else if (event.queryStringParameters.var.includes("Hi")) {
+        data = "Hello Bharathi !!!";
+
+    }
+    else if (event.queryStringParameters.var.includes("Hi")) {
+        data = "Hello Bharathi !!!";
+
+    }
+    else {
         data = event.queryStringParameters.var
     }
 
-    
+
     return {
         statusCode: 200,
-    //  Uncomment below to enable CORS requests
-     headers: {
-         "Access-Control-Allow-Origin": "*",
-         "Access-Control-Allow-Headers": "*"
-     },
-        body:data,
+        //  Uncomment below to enable CORS requests
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*"
+        },
+        body: data,
     };
 };
 

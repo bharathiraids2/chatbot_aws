@@ -16,7 +16,7 @@ const VC = () => {
         path: '/items',
         options: {
           queryParams: {
-            var: text
+            input: text.toLowerCase()
           }
         }
       });

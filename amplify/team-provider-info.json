@@ -15,7 +15,7 @@
       "function": {
         "chatLAMBDA": {
           "deploymentBucketName": "amplify-chatbotaws-master-f4950-deployment",
-          "s3Key": "amplify-builds/chatLAMBDA-2f387847667631416b33-build.zip"
+          "s3Key": "amplify-builds/chatLAMBDA-2f63716a7a4635384663-build.zip"
         }
       },
       "api": {
