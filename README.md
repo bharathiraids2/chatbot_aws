@@ -76,6 +76,8 @@ npx create-react-app ./  or name
 
 amplify commands:
 
+amplify add function
+
 amplify init
 
 amplify push      #for backend code push to awsa

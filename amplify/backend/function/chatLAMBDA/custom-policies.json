@@ -1,6 +1,8 @@
 [
   {
-    "Action": [],
-    "Resource": []
-  }
+     "Action": [
+        "bedrock:InvokeModel"
+      ],
+      "Resource": ["arn:aws:bedrock:ap-south-1::foundation-model/amazon.titan-text-express-v1"]
+    }
 ]

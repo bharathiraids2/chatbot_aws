@@ -2,87 +2,68 @@ import React, { useState, useEffect, useRef } from "react";
 import { get } from 'aws-amplify/api';
 
 const VC = () => {
+  // 1. State and refs
   const [messages, setMessages] = useState([]);
   const [transcriptText, setTranscriptText] = useState("");
-  const recognitionRef = useRef(null);
   const [isListening, setIsListening] = useState(false);
   const chatBoxRef = useRef(null);
 
-  async function getTodo(text) {
-    console.log("text",text)
-    try {
-      const restOperation = get({
-        apiName: 'chatAPI',
-        path: '/items',
-        options: {
-          queryParams: {
-            input: text.toLowerCase()
-          }
-        }
-      });
-      const { body } = await restOperation.response;
-      console.log("body",body)
-      // const json = await body.json();
-      // console.log('GET call succeeded: ', json);
-      const str = await body.text();
-      return str;
-
-    } catch (e) {
-      console.log('GET call failed: ', JSON.parse(e.response.body));
-    }
-  }
-
-  useEffect(() => {
+  // 2. Event handler function: start voice recognition on button click
+  const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("Speech Recognition not supported in this browser.");
-      return;
-    }
+    if (!SpeechRecognition) return alert("Speech Recognition not supported");
 
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = true;
-    recognition.maxAlternatives = 1;
+    console.log(recognition,"hereeeee");
 
     recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    
     recognition.onresult = async (event) => {
-
-      const transcript = Array.from(event.results).map((r) => r[0].transcript).join("");
-
+      const transcript = Array.from(event.results).map(r => r[0].transcript).join("");
       setTranscriptText(transcript);
-
+      console.log(event,"i am here")
       if (event.results[0].isFinal) {
-        // console.log(transcript)
-        setMessages((prev) => [{ type: "user", text: transcript }, ...prev]);
-        let getAIBOTResponse = await getTodo(transcript);
-        console.log("getAIBOTResponse",  getAIBOTResponse);
-        setMessages((prev) => [{ type: "bot", text: getAIBOTResponse }, ...prev]);
-        setTranscriptText("");
+        setMessages(prev => [{ type: "user", text: transcript }, ...prev]);
+        const botReply = await fetchBotReply(transcript);
+        setMessages(prev => [{ type: "bot", text: botReply }, ...prev]);
+        setTranscriptText(""); //reset transcript
       }
     };
 
-    recognition.onend = () => setIsListening(false);
     recognition.onerror = (e) => {
-      console.error("Speech recognition error:", e.error);
-      if (e.error === "not-allowed") alert("Please allow microphone access.");
+      console.error("Speech Error:", e.error);
       setIsListening(false);
     };
 
-    recognitionRef.current = recognition;
-  }, []);
+    recognition.start();
+  };
 
+  // 3. Helper async function: fetch bot reply from backend API
+  const fetchBotReply = async (text) => {
+    try {
+      const restOperation = get({
+        apiName: 'CHATAPI',
+        path: '/items',
+        options: { queryParams: { input: text.toLowerCase() } }
+      });
+      const { body } = await restOperation.response;
+      const json = await body.json();
+      return json.message;
+    } catch (e) {
+      console.error("Error fetching bot reply", e);
+      return "Something went wrong.";
+    }
+  };
+
+  // 4. Effect: scroll chat to top (newest message) when messages update
   useEffect(() => {
     if (chatBoxRef.current) chatBoxRef.current.scrollTop = 0;
   }, [messages]);
 
-  const startListening = () => {
-    try {
-      if (recognitionRef.current && !isListening) recognitionRef.current.start();
-    } catch (error) {
-      if (error.name !== "InvalidStateError") console.error("Recognition error:", error);
-    }
-  };
-
+  // 5. Styles and JSX render
   const styles = {
     container: {
       height: "100vh", width: "100vw", background: "#fff",
@@ -121,7 +102,8 @@ const VC = () => {
     },
     hideScrollbar: `.chatBox::-webkit-scrollbar { display: none; }`,
     pulseKeyframes: `@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }`,
-  }; 
+  };
+
   return (
     <>
       <style>{styles.pulseKeyframes + styles.hideScrollbar}</style>
@@ -164,6 +146,4 @@ const VC = () => {
   );
 };
 
-export default VC
-
-
+export default VC;

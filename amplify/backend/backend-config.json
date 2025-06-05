@@ -1,6 +1,6 @@
 {
   "api": {
-    "chatAPI": {
+    "CHATAPI": {
       "dependsOn": [
         {
           "attributes": [

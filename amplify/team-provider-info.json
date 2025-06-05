@@ -15,11 +15,11 @@
       "function": {
         "chatLAMBDA": {
           "deploymentBucketName": "amplify-chatbotaws-master-f4950-deployment",
-          "s3Key": "amplify-builds/chatLAMBDA-777a793353726d6f6268-build.zip"
+          "s3Key": "amplify-builds/chatLAMBDA-334c5631373542327a59-build.zip"
         }
       },
       "api": {
-        "chatAPI": {}
+        "CHATAPI": {}
       }
     }
   }
